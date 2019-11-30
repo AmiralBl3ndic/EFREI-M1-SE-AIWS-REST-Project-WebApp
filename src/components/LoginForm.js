@@ -13,7 +13,7 @@ export default class LoginForm extends React.PureComponent {
 					<label htmlFor="email">Email</label>
 					<InputGroup seamless>
 						<InputGroupAddon type="prepend">
-							<InputGroupText>@</InputGroupText>
+							<InputGroupText>📧</InputGroupText>
 						</InputGroupAddon>
 						<FormInput type="email" id="email" name="email" placeholder="Email" required
 						           onChange={this.props.handleInputChange}
@@ -26,7 +26,7 @@ export default class LoginForm extends React.PureComponent {
 					<label htmlFor="password">Password</label>
 					<InputGroup seamless>
 						<InputGroupAddon type="prepend">
-							<InputGroupText>🔑</InputGroupText>
+							<InputGroupText>🔐</InputGroupText>
 						</InputGroupAddon>
 						<FormInput type="password" id="password" name="password" placeholder="Password" required
 						           onChange={this.props.handleInputChange}
