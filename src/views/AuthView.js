@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, CardBody, CardTitle, CardFooter, Button } from 'shards-react';
+import { Card, CardHeader, CardBody, CardTitle, CardFooter, Button } from 'shards-react';
 import Row from "react-bootstrap/Row";
 
 export default class AuthView extends React.Component {
@@ -12,6 +12,7 @@ export default class AuthView extends React.Component {
 		};
 
 		this.AuthFormFooter = this.AuthFormFooter.bind(this);
+		this.AuthFormHeader = this.AuthFormHeader.bind(this);
 	}
 
 
@@ -19,16 +20,33 @@ export default class AuthView extends React.Component {
 		return (
 			<Row className="vh-100 align-middle bg-light" noGutters={true}>
 				<Card className="col-10 offset-1 col-md-8 offset-md-2 align-self-center">
+					{ this.AuthFormHeader() }
 					<CardBody>
-						<CardTitle>Login</CardTitle>
+
 
 					</CardBody>
-					{ this.AuthFormFooter(false) }
+					{ this.AuthFormFooter() }
 				</Card>
 			</Row>
 		);
 	}
 
+	/**
+	 * Renders the header of the authentication form accordingly to state
+	 */
+	AuthFormHeader() {
+		return (
+			<CardHeader>
+				<CardTitle className="mb-0">
+					{ this.state.createAccount ? "Create an account" : "Login" }
+				</CardTitle>
+			</CardHeader>
+		);
+	}
+
+	/**
+	 * Renders the footer of the authentication form accordingly to state
+	 */
 	AuthFormFooter() {
 		const handleClick = () => {
 			this.setState({
