@@ -13,7 +13,7 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-			<div className="vh-10">
+			<div className="vh-100">
 				{!this.state.isLoggedIn && <AuthView />}
 			</div>
 		);
