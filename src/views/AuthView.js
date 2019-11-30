@@ -1,15 +1,30 @@
 import React from "react";
 
-import { Card, CardHeader, CardBody, CardTitle, CardFooter, Button } from 'shards-react';
+import {
+	Card,	CardHeader,
+	CardBody,	CardTitle, CardFooter,
+	Button } from 'shards-react';
+
 import Row from "react-bootstrap/Row";
+
+import LoginForm from "../components/LoginForm";
 
 export default class AuthView extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			isLoggingIn: true
+			isLoggingIn: true,
+			email: '',
+			password: '',
+			loginFormErrors: {
+				wrongCredentials: false
+			},
+			registrationFormErrors: {}
 		};
+
+		this.renderForm = this.renderForm.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
 	}
 
 
@@ -20,13 +35,33 @@ export default class AuthView extends React.PureComponent {
 					<AuthFormHeader isLoggingIn={this.state.isLoggingIn} />
 
 					<CardBody>
-
+						{ this.renderForm() }
 					</CardBody>
 
 					<AuthFormFooter isLoggingIn={this.state.isLoggingIn} onClick={() => this.setState({isLoggingIn: !this.state.isLoggingIn})} />
 				</Card>
 			</Row>
 		);
+	}
+
+	renderForm() {
+		if (this.state.isLoggingIn) {
+			return (
+				<LoginForm
+					onSubmit={(e) => e.preventDefault()}
+					handleInputChange={this.handleInputChange}
+					wrongCredentials={this.state.wrongCredentials}
+				/>
+			);
+		}
+	}
+
+	/**
+	 * Handles a change made on an input (text input)
+	 * @param event Change event
+	 */
+	handleInputChange(event) {
+		this.setState({ [event.target.name]: event.target.value });
 	}
 }
 
