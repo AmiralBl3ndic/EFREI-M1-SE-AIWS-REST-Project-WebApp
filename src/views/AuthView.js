@@ -20,7 +20,7 @@ export default class AuthView extends React.PureComponent {
 			password: '',
 			city: '',
 			loginFormErrors: {
-				wrongCredentials: false
+				wrongCredentials: ''
 			},
 			registrationFormErrors: {}
 		};
@@ -32,8 +32,8 @@ export default class AuthView extends React.PureComponent {
 
 	render() {
 		return (
-			<Row className="vh-100 align-middle bg-light bg-custom-blue" noGutters={true}>
-				<Card className="col-10 offset-1 col-md-8 offset-md-2 align-self-center">
+			<Row className="h-100 align-middle" noGutters>
+				<Card className="col-10 offset-1 col-md-8 offset-md-2 align-self-center my-2">
 					<AuthFormHeader isLoggingIn={this.state.isLoggingIn} />
 
 					<CardBody>

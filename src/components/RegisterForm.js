@@ -138,7 +138,7 @@ export default class RegisterForm extends React.PureComponent {
 					</InputGroup>
 				</FormGroup>
 
-				<Row className="justify-content-center justify-content-md-between mt-4" noGutters={true}>
+				<Row className="justify-content-center justify-content-md-between mt-4">
 					<Button outline type="reset" size="sm" theme="danger" className="order-2 order-md-1 mt-4 mt-md-0" onClick={() => this.setState({email:'', password:'', city:'', emailValid: null, passwordValid: null, passwordsMatch: null})}>
 						Reset
 					</Button>

@@ -37,7 +37,7 @@ export default class LoginForm extends React.PureComponent {
 					</InputGroup>
 				</FormGroup>
 
-				<Row className="justify-content-center justify-content-md-end mt-4" noGutters={true}>
+				<Row className="justify-content-center justify-content-md-end mt-4" noGutters>
 					<Button type="submit">
 						Login
 					</Button>
