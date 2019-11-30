@@ -8,6 +8,7 @@ import {
 import Row from "react-bootstrap/Row";
 
 import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/RegisterForm";
 
 export default class AuthView extends React.PureComponent {
 	constructor(props) {
@@ -15,8 +16,9 @@ export default class AuthView extends React.PureComponent {
 
 		this.state = {
 			isLoggingIn: true,
-			email: '',
+			email: 'test',
 			password: '',
+			city: '',
 			loginFormErrors: {
 				wrongCredentials: false
 			},
@@ -30,7 +32,7 @@ export default class AuthView extends React.PureComponent {
 
 	render() {
 		return (
-			<Row className="vh-100 align-middle bg-light" noGutters={true}>
+			<Row className="vh-100 align-middle bg-light bg-custom-blue" noGutters={true}>
 				<Card className="col-10 offset-1 col-md-8 offset-md-2 align-self-center">
 					<AuthFormHeader isLoggingIn={this.state.isLoggingIn} />
 
@@ -51,6 +53,16 @@ export default class AuthView extends React.PureComponent {
 					onSubmit={(e) => e.preventDefault()}
 					handleInputChange={this.handleInputChange}
 					wrongCredentials={this.state.wrongCredentials}
+				/>
+			);
+		} else {
+			return (
+				<RegisterForm
+					onSubmit={(e) => e.preventDefault()}
+					handleInputChange={this.handleInputChange}
+					currentEmail={this.state.email}
+					currentPassword={this.state.password}
+					currentCity={this.state.city}
 				/>
 			);
 		}
