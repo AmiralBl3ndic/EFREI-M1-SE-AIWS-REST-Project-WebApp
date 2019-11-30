@@ -6,6 +6,38 @@ import Row from "react-bootstrap/Row";
 
 
 export default class LoginForm extends React.PureComponent {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			email: props.currentEmail || "",
+			password: props.currentPassword || "",
+			wrongCredentials: false
+		};
+
+		this.handleSubmission = this.handleSubmission.bind(this);
+	}
+
+	/**
+	 * Function called on form submission
+	 * @param e "Form submitted" event
+	 */
+	handleSubmission(e) {
+
+
+		this.props.onSubmit(e);  // Lift the information to parent component
+	}
+
+	/**
+	 * Function called on an input change
+	 * @param e "Input changed" event
+	 */
+	handleInputChange(e) {
+		this.setState({[e.target.name]: e.target.value});
+		this.props.handleInputChange(e);
+	}
+
+
 	render() {
 		return (
 			<Form className="px-md-4" onSubmit={this.props.onSubmit}>
@@ -17,8 +49,8 @@ export default class LoginForm extends React.PureComponent {
 						</InputGroupAddon>
 						<FormInput type="email" id="email" name="email" placeholder="Email" required
 						           defaultValue={this.props.currentEmail ? this.props.currentEmail : ''}
-						           onChange={this.props.handleInputChange}
-						           invalid={this.props.wrongCredentials}
+						           onChange={this.handleInputChange}
+						           invalid={this.state.wrongCredentials}
 						/>
 					</InputGroup>
 				</FormGroup>
@@ -31,8 +63,8 @@ export default class LoginForm extends React.PureComponent {
 						</InputGroupAddon>
 						<FormInput type="password" id="password" name="password" placeholder="Password" required
 						           defaultValue={this.props.currentPassword ? this.props.currentPassword : ''}
-						           onChange={this.props.handleInputChange}
-						           invalid={this.props.wrongCredentials}
+						           onChange={this.handleInputChange}
+						           invalid={this.state.wrongCredentials}
 						/>
 					</InputGroup>
 				</FormGroup>
@@ -50,7 +82,6 @@ export default class LoginForm extends React.PureComponent {
 LoginForm.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 	handleInputChange: PropTypes.func.isRequired,
-	wrongCredentials: PropTypes.bool,
 	currentEmail: PropTypes.string,
 	currentPassword: PropTypes.string
 };

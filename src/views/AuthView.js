@@ -19,9 +19,6 @@ export default class AuthView extends React.PureComponent {
 			email: '',
 			password: '',
 			city: '',
-			loginFormErrors: {
-				wrongCredentials: ''
-			},
 			registrationFormErrors: {}
 		};
 
@@ -52,7 +49,6 @@ export default class AuthView extends React.PureComponent {
 				<LoginForm
 					onSubmit={(e) => e.preventDefault()}
 					handleInputChange={this.handleInputChange}
-					wrongCredentials={this.state.wrongCredentials}
 					currentEmail={this.state.email}
 					currentPassword={this.state.password}
 				/>
