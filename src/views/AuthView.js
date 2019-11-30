@@ -24,6 +24,7 @@ export default class AuthView extends React.PureComponent {
 
 		this.renderForm = this.renderForm.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
+		this.toggleForms = this.toggleForms.bind(this);
 	}
 
 
@@ -37,7 +38,7 @@ export default class AuthView extends React.PureComponent {
 						{ this.renderForm() }
 					</CardBody>
 
-					<AuthFormFooter isLoggingIn={this.state.isLoggingIn} onClick={() => this.setState({isLoggingIn: !this.state.isLoggingIn})} />
+					<AuthFormFooter isLoggingIn={this.state.isLoggingIn} onClick={this.toggleForms} />
 				</Card>
 			</Row>
 		);
@@ -72,6 +73,13 @@ export default class AuthView extends React.PureComponent {
 	 */
 	handleInputChange(event) {
 		this.setState({ [event.target.name]: event.target.value });
+	}
+
+	/**
+	 * Toggle the displayed form between {@link LoginForm} and {@link RegisterForm}
+	 */
+	toggleForms() {
+		this.setState({isLoggingIn: !this.state.isLoggingIn});
 	}
 }
 
