@@ -11,6 +11,7 @@ export default class RegisterForm extends React.PureComponent {
 		this.state = {
 			email: props.currentEmail || "",
 			password: props.currentPassword || "",
+			city: props.currentEmail || "",
 			emailValid: null,
 			passwordValid: null,
 			passwordsMatch: null
@@ -85,7 +86,7 @@ export default class RegisterForm extends React.PureComponent {
 							<InputGroupText>📧</InputGroupText>
 						</InputGroupAddon>
 						<FormInput type="email" id="email" name="email" placeholder="Email" required
-						           defaultValue={this.props.currentEmail ? this.props.currentEmail : ''}
+						           defaultValue={this.state.email}
 						           onChange={this.handleEmailChange}
 						           onBlur={this.validateEmail}
 						           invalid={this.state.emailValid !== null && !this.state.emailValid}
@@ -131,13 +132,14 @@ export default class RegisterForm extends React.PureComponent {
 							<InputGroupText>🏠</InputGroupText>
 						</InputGroupAddon>
 						<FormInput type="text" id="city" name="city" placeholder="city" required
+						           defaultValue={this.props.currentCity ? this.props.currentCity : ''}
 						           onChange={this.props.handleInputChange}
 						/>
 					</InputGroup>
 				</FormGroup>
 
 				<Row className="justify-content-center justify-content-md-between mt-4" noGutters={true}>
-					<Button outline type="reset" size="sm" theme="danger" className="order-2 order-md-1 mt-4 mt-md-0" onClick={() => this.setState({emailValid: null, passwordValid: null, passwordsMatch: null})}>
+					<Button outline type="reset" size="sm" theme="danger" className="order-2 order-md-1 mt-4 mt-md-0" onClick={() => this.setState({email:'', password:'', city:'', emailValid: null, passwordValid: null, passwordsMatch: null})}>
 						Reset
 					</Button>
 					<Button type="submit" className="col-12 col-md-4 order-1 order-md-2">
@@ -153,5 +155,6 @@ RegisterForm.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 	handleInputChange: PropTypes.func.isRequired,
 	currentPassword: PropTypes.string,
-	currentEmail: PropTypes.string
+	currentEmail: PropTypes.string,
+	currentCity: PropTypes.string
 };

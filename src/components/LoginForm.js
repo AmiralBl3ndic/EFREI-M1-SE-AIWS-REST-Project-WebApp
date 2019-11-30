@@ -16,6 +16,7 @@ export default class LoginForm extends React.PureComponent {
 							<InputGroupText>📧</InputGroupText>
 						</InputGroupAddon>
 						<FormInput type="email" id="email" name="email" placeholder="Email" required
+						           defaultValue={this.props.currentEmail ? this.props.currentEmail : ''}
 						           onChange={this.props.handleInputChange}
 						           invalid={this.props.wrongCredentials}
 						/>
@@ -29,6 +30,7 @@ export default class LoginForm extends React.PureComponent {
 							<InputGroupText>🔐</InputGroupText>
 						</InputGroupAddon>
 						<FormInput type="password" id="password" name="password" placeholder="Password" required
+						           defaultValue={this.props.currentPassword ? this.props.currentPassword : ''}
 						           onChange={this.props.handleInputChange}
 						           invalid={this.props.wrongCredentials}
 						/>
@@ -48,5 +50,7 @@ export default class LoginForm extends React.PureComponent {
 LoginForm.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 	handleInputChange: PropTypes.func.isRequired,
-	wrongCredentials: PropTypes.bool
+	wrongCredentials: PropTypes.bool,
+	currentEmail: PropTypes.string,
+	currentPassword: PropTypes.string
 };
