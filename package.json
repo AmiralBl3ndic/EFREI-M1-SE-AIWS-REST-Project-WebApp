@@ -1,0 +1,10 @@
+{
+  "name": "aiws-rest-project-webapp",
+  "version": "0.0.0",
+  "description": "React webapp for the AIWS REST Project",
+  "main": "index.js",
+  "repository": "git@ssh.dev.azure.com:v3/EFREI2021-M1-SE/AIWS%20-%20REST%20Project/AIWS%20-%20REST%20Project%20Webapp",
+  "author": "Camille Briand <camille.briand@efrei.net>",
+  "license": "MIT",
+  "private": true
+}
