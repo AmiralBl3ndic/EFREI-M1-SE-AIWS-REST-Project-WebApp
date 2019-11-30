@@ -90,7 +90,7 @@ class AuthFormFooter extends React.PureComponent {
 				<CardFooter>
 					<span>Do not have an account yet?</span>
 					<br className="d-block d-md-none" />
-					<Button size="sm" className="mt-2 mt-md-0 ml-md-2 px-1 px-md-2" onClick={this.props.onClick}>Create an account</Button>
+					<Button outline size="sm" className="mt-2 mt-md-0 ml-md-2 px-1 px-md-2" onClick={this.props.onClick}>Create an account</Button>
 				</CardFooter>
 			);
 		} else {
@@ -98,7 +98,7 @@ class AuthFormFooter extends React.PureComponent {
 				<CardFooter>
 					<span>Already have an account?</span>
 					<br className="d-block d-md-none" />
-					<Button size="sm" className="mt-2 mt-md-0 ml-md-2 px-1 px-md-2" onClick={this.props.onClick}>Login</Button>
+					<Button outline size="sm" className="mt-2 mt-md-0 ml-md-2 px-1 px-md-2" onClick={this.props.onClick}>Login</Button>
 				</CardFooter>
 			);
 		}
