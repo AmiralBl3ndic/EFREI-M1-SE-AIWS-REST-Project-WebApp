@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'proptypes'
+
 import {Button, Form, FormGroup, FormInput, InputGroup, InputGroupAddon, InputGroupText} from "shards-react";
 import Row from "react-bootstrap/Row";
 
@@ -43,6 +45,8 @@ export default class LoginForm extends React.PureComponent {
 	}
 }
 
-/*LoginForm.propTypes = {
-	wrongCredentials: PropTypes.boolean
-};*/
+LoginForm.propTypes = {
+	onSubmit: PropTypes.func.isRequired,
+	handleInputChange: PropTypes.func.isRequired,
+	wrongCredentials: PropTypes.bool
+};
