@@ -1,6 +1,6 @@
 import React from "react";
 
-const JWT_STORAGE = "jwt-token";
+export const JWT_STORAGE = "jwt-token";
 
 const defaultValue = {
 	jwtToken: sessionStorage.getItem(JWT_STORAGE) === null ? "" : sessionStorage.getItem(JWT_STORAGE),

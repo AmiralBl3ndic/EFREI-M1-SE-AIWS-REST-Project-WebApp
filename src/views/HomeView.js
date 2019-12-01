@@ -5,6 +5,7 @@ import {Card, CardBody, Button as ShardsButton} from "shards-react";
 import {Tabs} from 'antd';
 import { FaPowerOff } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
+import AccountSettingsModal from "../components/AccountSettingsModal";
 
 export default class HomeView extends React.Component {
 	state = {
@@ -13,22 +14,26 @@ export default class HomeView extends React.Component {
 
 	render() {
 		return (
-			<Container className="h-100 w-100 py-2">
-				<Row className="h-100" noGutters>
-					<Card className="col-12">
-						<CardBody className="pt-3">
-							<Header />
+			<React.Fragment>
+				<Container className="h-100 w-100 py-2">
+					<Row className="h-100" noGutters>
+						<Card className="col-12">
+							<CardBody className="pt-3">
+								<Header />
 
-							<TabsRow
-								activeKey={this.state.activeTabKey}
-								onTabChange={key => this.setState({activeTabKey: key})}
-							/>
+								<TabsRow
+									activeKey={this.state.activeTabKey}
+									onTabChange={key => this.setState({activeTabKey: key})}
+								/>
 
-							<TabsContent activeTabKey={this.state.activeTabKey} />
-						</CardBody>
-					</Card>
-				</Row>
-			</Container>
+								<TabsContent activeTabKey={this.state.activeTabKey} />
+							</CardBody>
+						</Card>
+					</Row>
+				</Container>
+
+				<AccountSettingsModal visible={true}  onClose={() => console.log("TODO: close this")}/>
+			</React.Fragment>
 		);
 	}
 }
