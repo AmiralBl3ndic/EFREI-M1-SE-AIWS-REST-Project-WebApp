@@ -8,32 +8,24 @@ import { AuthenticationContext } from "../context/AuthenticationProvider";
 import Axios from "axios";
 
 import {authEndpoint} from '../uris';
-import {JWT_STORAGE} from '../constants';
 
 /**
  * Component holding UI and logic for the login form of the app
  */
 export default class LoginForm extends React.PureComponent {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			email: props.currentEmail || "",
-			password: props.currentPassword || "",
-			error: '',
-			showErrorModal: false
-		};
-
-		this.handleSubmission = this.handleSubmission.bind(this);
-		this.handleInputChange = this.handleInputChange.bind(this);
-	}
+	state = {
+		email: this.props.currentEmail || "",
+		password: this.props.currentPassword || "",
+		error: '',
+		showErrorModal: false
+	};
 
 	/**
 	 * Function called on form submission
 	 * @param e "Form submitted" event
 	 * @param updateContext AuthenticationContext method to update the authentication token
 	 */
-	handleSubmission(e, updateContext) {
+	handleSubmission = (e, updateContext) => {
 		e.preventDefault();
 
 		const request = {
@@ -57,16 +49,16 @@ export default class LoginForm extends React.PureComponent {
 			.catch(error => {
 				this.setState({error: error.response.data.error, showErrorModal: true});
 			});
-	}
+	};
 
 	/**
 	 * Function called on an input change
 	 * @param e "Input changed" event
 	 */
-	handleInputChange(e) {
+	handleInputChange = (e) => {
 		this.setState({[e.target.name]: e.target.value});
 		this.props.handleInputChange(e);
-	}
+	};
 
 
 	render() {
