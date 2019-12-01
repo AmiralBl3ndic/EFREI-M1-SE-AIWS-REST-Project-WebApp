@@ -1,8 +1,9 @@
 import React from "react";
-import {JWT_STORAGE} from "../constants";
+
+const JWT_STORAGE = "jwt-token";
 
 const defaultValue = {
-	jwtToken: null,
+	jwtToken: sessionStorage.getItem(JWT_STORAGE) === null ? "" : sessionStorage.getItem(JWT_STORAGE),
 	storeToken: () => {},
 	deleteToken: () => {}
 };
@@ -11,17 +12,29 @@ const defaultValue = {
 export const AuthenticationContext = React.createContext(defaultValue);
 
 class AuthenticationProvider extends React.Component {
+	refreshInterval = null;
+
 	state = {
 		jwtToken: defaultValue.jwtToken,
 		storeToken: token => {
 			this.setState({ jwtToken: token });
-			localStorage.setItem(JWT_STORAGE, token);
+			sessionStorage.setItem(JWT_STORAGE, token);
 		},
 		deleteToken: token => {
 			this.setState({ jwtToken: defaultValue.jwtToken });
-			localStorage.removeItem(JWT_STORAGE);
+			sessionStorage.removeItem(JWT_STORAGE);
 		}
 	};
+
+	componentDidMount() {
+		this.refreshInterval = setInterval(() => {
+			this.setState({jwtToken: sessionStorage.getItem(JWT_STORAGE) === null ? "" : sessionStorage.getItem(JWT_STORAGE)});
+		}, 5 * 1000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.refreshInterval);
+	}
 
 	render() {
 		return (
