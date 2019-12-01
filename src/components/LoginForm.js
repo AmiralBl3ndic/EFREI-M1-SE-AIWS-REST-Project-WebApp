@@ -31,8 +31,9 @@ export default class LoginForm extends React.PureComponent {
 	/**
 	 * Function called on form submission
 	 * @param e "Form submitted" event
+	 * @param updateContext AuthenticationContext method to update the authentication token
 	 */
-	handleSubmission(e) {
+	handleSubmission(e, updateContext) {
 		e.preventDefault();
 
 		const request = {
@@ -51,9 +52,7 @@ export default class LoginForm extends React.PureComponent {
 					password: ''
 				});
 
-				// Save the token to local storage and lift state up
-				localStorage.setItem(JWT_STORAGE, response.data.token);
-				this.props.onSuccess();
+				updateContext(response.data.token);
 			})
 			.catch(error => {
 				this.setState({error: error.response.data.error, showErrorModal: true});
@@ -73,41 +72,45 @@ export default class LoginForm extends React.PureComponent {
 	render() {
 		return (
 			<React.Fragment>
-				<Form className="px-md-4" onSubmit={this.handleSubmission}>
-					<FormGroup>
-						<label htmlFor="email">Email</label>
-						<InputGroup seamless>
-							<InputGroupAddon type="prepend">
-								<InputGroupText>📧</InputGroupText>
-							</InputGroupAddon>
-							<FormInput type="email" id="email" name="email" placeholder="Email" required
-							           value={this.state.email}
-							           onChange={this.handleInputChange}
-							           invalid={!!this.state.error}
-							/>
-						</InputGroup>
-					</FormGroup>
+				<AuthenticationContext.Consumer>
+					{ value => (
+						<Form className="px-md-4" onSubmit={e => this.handleSubmission(e, value.storeToken)}>
+							<FormGroup>
+								<label htmlFor="email">Email</label>
+								<InputGroup seamless>
+									<InputGroupAddon type="prepend">
+										<InputGroupText>📧</InputGroupText>
+									</InputGroupAddon>
+									<FormInput type="email" id="email" name="email" placeholder="Email" required
+									           value={this.state.email}
+									           onChange={this.handleInputChange}
+									           invalid={!!this.state.error}
+									/>
+								</InputGroup>
+							</FormGroup>
 
-					<FormGroup>
-						<label htmlFor="password">Password</label>
-						<InputGroup seamless>
-							<InputGroupAddon type="prepend">
-								<InputGroupText>🔐</InputGroupText>
-							</InputGroupAddon>
-							<FormInput type="password" id="password" name="password" placeholder="Password" required
-							           value={this.state.password}
-							           onChange={this.handleInputChange}
-							           invalid={!!this.state.error}
-							/>
-						</InputGroup>
-					</FormGroup>
+							<FormGroup>
+								<label htmlFor="password">Password</label>
+								<InputGroup seamless>
+									<InputGroupAddon type="prepend">
+										<InputGroupText>🔐</InputGroupText>
+									</InputGroupAddon>
+									<FormInput type="password" id="password" name="password" placeholder="Password" required
+									           value={this.state.password}
+									           onChange={this.handleInputChange}
+									           invalid={!!this.state.error}
+									/>
+								</InputGroup>
+							</FormGroup>
 
-					<Row className="justify-content-center justify-content-md-end mt-4" noGutters>
-						<Button type="submit">
-							Login
-						</Button>
-					</Row>
-				</Form>
+							<Row className="justify-content-center justify-content-md-end mt-4" noGutters>
+								<Button type="submit">
+									Login
+								</Button>
+							</Row>
+						</Form>
+					)}
+				</AuthenticationContext.Consumer>
 
 				<ErrorModal
 					show={this.state.showErrorModal}
@@ -136,7 +139,6 @@ class ErrorModal extends React.PureComponent {
 
 
 LoginForm.propTypes = {
-	onSuccess: PropTypes.func.isRequired,
 	handleInputChange: PropTypes.func.isRequired,
 	currentEmail: PropTypes.string,
 	currentPassword: PropTypes.string
