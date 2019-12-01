@@ -48,7 +48,6 @@ export default class AuthView extends React.PureComponent {
 		if (this.state.isLoggingIn) {
 			return (
 				<LoginForm
-					onSuccess={() => { alert("Authentication succeeded") }}
 					handleInputChange={this.handleInputChange}
 					currentEmail={this.state.email}
 					currentPassword={this.state.password}
@@ -57,7 +56,6 @@ export default class AuthView extends React.PureComponent {
 		} else {
 			return (
 				<RegisterForm
-					onSubmit={(e) => e.preventDefault()}
 					handleInputChange={this.handleInputChange}
 					currentEmail={this.state.email}
 					currentPassword={this.state.password}
