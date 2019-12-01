@@ -2,7 +2,7 @@ import React from "react";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import {Card, CardBody, Button as ShardsButton} from "shards-react";
-import {Tabs, Icon} from 'antd';
+import {Tabs} from 'antd';
 import { FaPowerOff } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 
@@ -23,6 +23,8 @@ export default class HomeView extends React.Component {
 								activeKey={this.state.activeTabKey}
 								onTabChange={key => this.setState({activeTabKey: key})}
 							/>
+
+							<TabsContent activeTabKey={this.state.activeTabKey} />
 						</CardBody>
 					</Card>
 				</Row>
@@ -69,7 +71,7 @@ const TabsRow = (props) => (
       }
 		/>
 		<Tabs.TabPane
-			key="video-games"
+			key="videogames"
       tab={
         <span>
 					Video-games
@@ -78,3 +80,14 @@ const TabsRow = (props) => (
 		/>
 	</Tabs>
 );
+
+
+const TabsContent = (props) => {
+	const tabs = {
+		books: <h1>Books</h1>,
+		dvds: <h1>DVDs</h1>,
+		videogames: <h1>Video-games</h1>
+	};
+
+	return tabs[props.activeTabKey]
+};
