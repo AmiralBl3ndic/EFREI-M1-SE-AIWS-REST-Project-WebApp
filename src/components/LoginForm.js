@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'proptypes'
 import {Button, Form, FormGroup, FormInput, InputGroup, InputGroupAddon, InputGroupText, Modal, ModalHeader, ModalBody} from "shards-react";
 import Row from "react-bootstrap/Row";
-
-import { AuthenticationContext } from "../context/AuthenticationProvider";
-
+import Spinner from "react-bootstrap/Spinner";
 import Axios from "axios";
-
+import { AuthenticationContext } from "../context/AuthenticationProvider";
 import {authEndpoint} from '../uris';
+
 
 /**
  * Component holding UI and logic for the login form of the app
@@ -17,7 +16,8 @@ export default class LoginForm extends React.PureComponent {
 		email: this.props.currentEmail || "",
 		password: this.props.currentPassword || "",
 		error: '',
-		showErrorModal: false
+		showErrorModal: false,
+		pendingRequest: false
 	};
 
 	/**
@@ -37,6 +37,8 @@ export default class LoginForm extends React.PureComponent {
 			}
 		};
 
+		this.setState({pendingRequest: true});
+
 		Axios(request)
 			.then(response => {
 				this.setState({
@@ -48,6 +50,9 @@ export default class LoginForm extends React.PureComponent {
 			})
 			.catch(error => {
 				this.setState({error: error.response.data.error, showErrorModal: true});
+			})
+			.finally(() => {
+				this.setState({pendingRequest: false})
 			});
 	};
 
@@ -96,8 +101,14 @@ export default class LoginForm extends React.PureComponent {
 							</FormGroup>
 
 							<Row className="justify-content-center justify-content-md-end mt-4" noGutters>
-								<Button type="submit">
-									Login
+								<Button type="submit" disabled={this.state.pendingRequest}>
+									{ this.state.pendingRequest &&
+										<React.Fragment>
+											<Spinner animation="border" as="span" size="sm" />
+											<span>&nbsp;&nbsp;</span>
+										</React.Fragment>
+									}
+									<span>Login</span>
 								</Button>
 							</Row>
 						</Form>
