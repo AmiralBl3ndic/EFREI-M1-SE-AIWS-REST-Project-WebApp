@@ -7,7 +7,7 @@ export const AuthenticationContext = React.createContext(defaultValue);
 
 class AuthenticationProvider extends React.Component {
 	state = {
-		token: defaultValue.jwtToken,
+		jwtToken: defaultValue.jwtToken,
 		storeToken: token => this.setState({ jwtToken: token }),
 		deleteToken: token => this.setState( { jwtToken: defaultValue.jwtToken } )
 	};
