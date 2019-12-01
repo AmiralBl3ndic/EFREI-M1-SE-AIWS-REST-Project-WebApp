@@ -1,6 +1,10 @@
 import React from "react";
 
-const defaultValue = { jwtToken: null };
+const defaultValue = {
+	jwtToken: null,
+	storeToken: () => {},
+	deleteToken: () => {}
+};
 
 
 export const AuthenticationContext = React.createContext(defaultValue);
