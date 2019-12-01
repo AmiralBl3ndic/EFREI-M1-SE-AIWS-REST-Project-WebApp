@@ -3,7 +3,21 @@ import PropTypes from "proptypes";
 
 import {Button, Form, FormGroup, FormInput, InputGroup, InputGroupAddon, InputGroupText} from "shards-react";
 import Row from "react-bootstrap/Row";
+
 import {AuthenticationContext} from "../context/AuthenticationProvider";
+
+import {usersEndpoint} from "../uris";
+import Axios from "axios";
+
+
+const emptyState = {
+	email: '',
+	password: '',
+	city: '',
+	emailValid: null,
+	passwordValid: null,
+	passwordsMatch: null
+};
 
 export default class RegisterForm extends React.PureComponent {
 	constructor(props) {
@@ -64,24 +78,53 @@ export default class RegisterForm extends React.PureComponent {
 		});
 	}
 
+	handleCityChange = e => {
+		this.setState({
+			city: e.target.value
+		});
 
-	submissionHandler(e) {
+		this.props.handleInputChange(e);
+	};
+
+
+	submissionHandler(e, updateContext) {
+		e.preventDefault();
+
 		this.validatePassword();
 		this.validateEmail();
 
+		// Simple form values validation to prevent multiple requests from being sent
 		if (!this.state.passwordsMatch || !this.state.emailValid || !this.state.passwordValid) {
-			e.preventDefault();
+			// TODO: display modal to advert user form is not correctly filled
 			return;
 		}
 
-		this.props.onSubmit(e);
+		const request = {
+			method: "POST",
+			url: usersEndpoint,
+			data: {
+				email: this.state.email,
+				password: this.state.password,
+				city: this.state.city
+			}
+		};
+
+		Axios(request)
+			.then(response => {
+				this.setState(emptyState);  // Resetting the state, just in case
+				updateContext(response.data.token);
+			})
+			.catch(error => {
+				// TODO: display modal to expose errors
+				console.log("Authentication error:", error.response);
+			});
 	}
 
 	render() {
 		return (
 			<AuthenticationContext.Consumer>
 				{value => (
-					<Form className="px-md-4" onSubmit={this.props.onSubmit}>
+					<Form className="px-md-4" onSubmit={e =>  this.submissionHandler(e, value.storeToken)}>
 						<FormGroup>
 							<label htmlFor="email">Email</label>
 							<InputGroup seamless>
@@ -136,7 +179,7 @@ export default class RegisterForm extends React.PureComponent {
 								</InputGroupAddon>
 								<FormInput type="text" id="city" name="city" placeholder="city" required
 								           defaultValue={this.props.currentCity ? this.props.currentCity : ''}
-								           onChange={this.props.handleInputChange}
+								           onChange={this.handleCityChange}
 								/>
 							</InputGroup>
 						</FormGroup>
@@ -157,7 +200,6 @@ export default class RegisterForm extends React.PureComponent {
 }
 
 RegisterForm.propTypes = {
-	onSubmit: PropTypes.func.isRequired,
 	handleInputChange: PropTypes.func.isRequired,
 	currentPassword: PropTypes.string,
 	currentEmail: PropTypes.string,
