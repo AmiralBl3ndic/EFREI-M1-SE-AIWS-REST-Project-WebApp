@@ -20,8 +20,8 @@ class AuthenticationProvider extends React.Component {
 			this.setState({ jwtToken: token });
 			sessionStorage.setItem(JWT_STORAGE, token);
 		},
-		deleteToken: token => {
-			this.setState({ jwtToken: defaultValue.jwtToken });
+		deleteToken: () => {
+			this.setState({ jwtToken: null });
 			sessionStorage.removeItem(JWT_STORAGE);
 		}
 	};
