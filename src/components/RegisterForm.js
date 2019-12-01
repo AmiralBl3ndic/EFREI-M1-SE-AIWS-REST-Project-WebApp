@@ -20,47 +20,36 @@ const emptyState = {
 };
 
 export default class RegisterForm extends React.PureComponent {
-	constructor(props) {
-		super(props);
+	state = {
+		email: this.props.currentEmail || "",
+		password: this.props.currentPassword || "",
+		city: this.props.currentEmail || "",
+		emailValid: null,
+		passwordValid: null,
+		passwordsMatch: null
+	};
 
-		this.state = {
-			email: props.currentEmail || "",
-			password: props.currentPassword || "",
-			city: props.currentEmail || "",
-			emailValid: null,
-			passwordValid: null,
-			passwordsMatch: null
-		};
-
-		this.validateEmail = this.validateEmail.bind(this);
-		this.validatePassword = this.validatePassword.bind(this);
-		this.handleEmailChange = this.handleEmailChange.bind(this);
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
-		this.submissionHandler = this.submissionHandler.bind(this);
-	}
-
-	validateEmail() {
+	validateEmail = () => {
 		this.setState({
 			emailValid: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email)
 		});
-	}
+	};
 
-	validatePassword() {
+	validatePassword = () => {
 		this.setState({
 			passwordValid: /.{8,}/.test(this.state.password)
 		});
-	}
+	};
 
-	handleEmailChange(e) {
+	handleEmailChange = (e) => {
 		this.setState({
 			email: e.target.value
 		});
 
 		this.props.handleInputChange(e);
-	}
+	};
 
-	handlePasswordChange(e) {
+	handlePasswordChange = (e) => {
 		this.setState({
 			password: e.target.value
 		});
@@ -70,13 +59,13 @@ export default class RegisterForm extends React.PureComponent {
 		}
 
 		this.props.handleInputChange(e);
-	}
+	};
 
-	handleConfirmPasswordChange(e) {
+	handleConfirmPasswordChange = (e) => {
 		this.setState({
 			passwordsMatch: e.target.value === this.state.password
 		});
-	}
+	};
 
 	handleCityChange = e => {
 		this.setState({
@@ -87,7 +76,7 @@ export default class RegisterForm extends React.PureComponent {
 	};
 
 
-	submissionHandler(e, updateContext) {
+	submissionHandler = (e, updateContext) => {
 		e.preventDefault();
 
 		this.validatePassword();
@@ -118,7 +107,7 @@ export default class RegisterForm extends React.PureComponent {
 				// TODO: display modal to expose errors
 				console.log("Authentication error:", error.response);
 			});
-	}
+	};
 
 	render() {
 		return (
