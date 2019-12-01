@@ -45,18 +45,26 @@ class AccountDetailsForm extends React.PureComponent {
 					}
 				};
 
+				const notificationKey = "deleteNotifKey";
+
+				notification.open({
+					key: notificationKey,
+					message: "Deleting your account...",
+					description: "This should not take long"
+				});
+
 				Axios(request)
 					.then(() => {
 						deleteToken();
 
-						notification["success"]({title: "Account deleted"});
+						notification["success"]({key: notificationKey, message: "Account deleted"});
 					})
 					.catch(error => {
 						if (error.response.status === 401) {
 							deleteToken();
 						}
 
-						notification["error"]({title: "Unable to delete account"});
+						notification["error"]({key: notificationKey, message: "Unable to delete account"});
 					});
 			}
 		});
