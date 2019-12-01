@@ -3,10 +3,14 @@ import React from "react";
 const defaultValue = { jwtToken: null };
 
 
-const AuthenticationContext = React.createContext(defaultValue);
+export const AuthenticationContext = React.createContext(defaultValue);
 
 class AuthenticationProvider extends React.Component {
-	state = defaultValue;
+	state = {
+		...defaultValue,
+		storeToken: token => this.setState({ jwtToken: token }),
+		deleteToken: token => this.setState( { jwtToken: defaultValue.jwtToken } )
+	};
 
 	render() {
 		return (
