@@ -28,12 +28,54 @@ export default class AccountSettingsModal extends React.PureComponent {
 
 
 class AccountDetailsForm extends React.PureComponent {
+
+	handleAccountDeletion = (e, deleteToken) => {
+		e.preventDefault();
+
+		Modal.confirm({
+			title: "Are you sure you want to delete your account?",
+			content: "This cannot be undone",
+			onOk() {
+				const tokenPayload = JSON.parse(atob(sessionStorage.getItem("jwt-token").split('.')[1]));
+				const request = {
+					method: "DELETE",
+					url: usersEndpoint + "/" + tokenPayload.dbId,
+					headers: {
+						'Authorization': 'Bearer ' + sessionStorage.getItem("jwt-token")
+					}
+				};
+
+				Axios(request)
+					.then(() => {
+						deleteToken();
+
+						notification["success"]({title: "Account deleted"});
+					})
+					.catch(error => {
+						if (error.response.status === 401) {
+							deleteToken();
+						}
+
+						notification["error"]({title: "Unable to delete account"});
+					});
+			}
+		});
+	};
+
 	render() {
 		return (
 			<React.Fragment>
 				<ChangePasswordForm />
 
 				<ChangeCityForm />
+
+				<AuthenticationContext.Consumer>
+					{authenticationContext => (
+						<Button theme="danger" block className="mt-5" onClick={e => this.handleAccountDeletion(e, authenticationContext.deleteToken)}>
+							Delete my account
+						</Button>
+					)}
+				</AuthenticationContext.Consumer>
 			</React.Fragment>
 		);
 	}
