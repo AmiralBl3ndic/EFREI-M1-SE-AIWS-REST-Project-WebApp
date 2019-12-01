@@ -1,12 +1,14 @@
-import Axios from "axios";
-import {authEndpoint} from '../uris';
-import {JWT_STORAGE} from '../constants';
-
 import React from 'react';
 import PropTypes from 'proptypes'
-
 import {Button, Form, FormGroup, FormInput, InputGroup, InputGroupAddon, InputGroupText, Modal, ModalHeader, ModalBody} from "shards-react";
 import Row from "react-bootstrap/Row";
+
+import { AuthenticationContext } from "../context/AuthenticationProvider";
+
+import Axios from "axios";
+
+import {authEndpoint} from '../uris';
+import {JWT_STORAGE} from '../constants';
 
 /**
  * Component holding UI and logic for the login form of the app
