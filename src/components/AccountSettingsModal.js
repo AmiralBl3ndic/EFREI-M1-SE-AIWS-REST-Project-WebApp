@@ -16,6 +16,7 @@ export default class AccountSettingsModal extends React.PureComponent {
 				footer={null}
 				centered
 				visible={this.props.visible}
+				onCancel={this.props.onClose}
 				title="Account settings"
 			>
 

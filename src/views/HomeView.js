@@ -6,10 +6,12 @@ import {Tabs} from 'antd';
 import { FaPowerOff } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import AccountSettingsModal from "../components/AccountSettingsModal";
+import {AuthenticationContext} from "../context/AuthenticationProvider";
 
 export default class HomeView extends React.Component {
 	state = {
-		activeTabKey: "books"
+		activeTabKey: "books",
+		showAccountSettingsModal: false
 	};
 
 	render() {
@@ -19,7 +21,14 @@ export default class HomeView extends React.Component {
 					<Row className="h-100" noGutters>
 						<Card className="col-12">
 							<CardBody className="pt-3">
-								<Header />
+								<AuthenticationContext.Consumer>
+									{authenticationContext => (
+										<Header
+											onAccountSettingsClick={() => this.setState({showAccountSettingsModal: true})}
+											onLogoutClick={() => authenticationContext.deleteToken()}
+										/>
+									)}
+								</AuthenticationContext.Consumer>
 
 								<TabsRow
 									activeKey={this.state.activeTabKey}
@@ -32,15 +41,15 @@ export default class HomeView extends React.Component {
 					</Row>
 				</Container>
 
-				<AccountSettingsModal visible={true}  onClose={() => console.log("TODO: close this")}/>
+				<AccountSettingsModal visible={this.state.showAccountSettingsModal}  onClose={() => this.setState({showAccountSettingsModal: false})}/>
 			</React.Fragment>
 		);
 	}
 }
 
-const Header = () => (
+const Header = (props) => (
 	<Row className="justify-content-between mt-0">
-		<ShardsButton theme="primary" className="power-off-button align-middle" size="sm" pill>
+		<ShardsButton theme="primary" className="power-off-button align-middle" size="sm" pill onClick={props.onAccountSettingsClick}>
 			<span className="align-top">
 				<MdAccountCircle className="" />
 				<span className="align-top">
@@ -49,7 +58,7 @@ const Header = () => (
 			</span>
 		</ShardsButton>
 
-		<ShardsButton theme="danger" className="power-off-button align-middle" size="sm" outline pill>
+		<ShardsButton theme="danger" className="power-off-button align-middle" size="sm" outline pill onClick={props.onLogoutClick}>
 			<span className="align-middle">
 			<FaPowerOff className="mb-1" />
 			</span>
