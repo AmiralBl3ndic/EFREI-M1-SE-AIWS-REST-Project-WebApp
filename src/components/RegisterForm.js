@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "proptypes";
-
 import {Button, Form, FormGroup, FormInput, InputGroup, InputGroupAddon, InputGroupText} from "shards-react";
 import Row from "react-bootstrap/Row";
-
-import {AuthenticationContext} from "../context/AuthenticationProvider";
-
-import {usersEndpoint} from "../uris";
+import Spinner from "react-bootstrap/Spinner";
 import Axios from "axios";
+import {AuthenticationContext} from "../context/AuthenticationProvider";
+import {usersEndpoint} from "../uris";
 
 
 const emptyState = {
@@ -26,7 +24,8 @@ export default class RegisterForm extends React.PureComponent {
 		city: this.props.currentEmail || "",
 		emailValid: null,
 		passwordValid: null,
-		passwordsMatch: null
+		passwordsMatch: null,
+		requestPending: false
 	};
 
 	validateEmail = () => {
@@ -98,6 +97,8 @@ export default class RegisterForm extends React.PureComponent {
 			}
 		};
 
+		this.setState({requestPending: true});
+
 		Axios(request)
 			.then(response => {
 				this.setState(emptyState);  // Resetting the state, just in case
@@ -106,6 +107,9 @@ export default class RegisterForm extends React.PureComponent {
 			.catch(error => {
 				// TODO: display modal to expose errors
 				console.log("Authentication error:", error.response);
+			})
+			.finally(() => {
+				this.setState({requestPending: false});
 			});
 	};
 
@@ -177,7 +181,13 @@ export default class RegisterForm extends React.PureComponent {
 							<Button outline type="reset" size="sm" theme="danger" className="order-2 order-md-1 mt-4 mt-md-0" onClick={() => this.setState({email:'', password:'', city:'', emailValid: null, passwordValid: null, passwordsMatch: null})}>
 								Reset
 							</Button>
-							<Button type="submit" className="col-12 col-md-4 order-1 order-md-2">
+							<Button type="submit" className="col-12 col-md-4 order-1 order-md-2" disabled={this.state.requestPending || !(this.state.emailValid && this.state.passwordValid && this.state.passwordsMatch && this.state.city !== "")}>
+								{ this.state.pendingRequest &&
+									<React.Fragment>
+										<Spinner animation="border" as="span" size="sm" />
+										<span>&nbsp;&nbsp;</span>
+									</React.Fragment>
+								}
 								Create an account
 							</Button>
 						</Row>
