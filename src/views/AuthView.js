@@ -11,22 +11,12 @@ import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
 
 export default class AuthView extends React.PureComponent {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			isLoggingIn: true,
-			email: '',
-			password: '',
-			city: '',
-			registrationFormErrors: {}
-		};
-
-		this.renderForm = this.renderForm.bind(this);
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.toggleForms = this.toggleForms.bind(this);
-	}
-
+	state = {
+		isLoggingIn: true,
+		email: '',
+		password: '',
+		city: ''
+	};
 
 	render() {
 		return (
@@ -44,7 +34,7 @@ export default class AuthView extends React.PureComponent {
 		);
 	}
 
-	renderForm() {
+	renderForm = () => {
 		if (this.state.isLoggingIn) {
 			return (
 				<LoginForm
@@ -63,22 +53,22 @@ export default class AuthView extends React.PureComponent {
 				/>
 			);
 		}
-	}
+	};
 
 	/**
 	 * Handles a change made on an input (text input)
 	 * @param event Change event
 	 */
-	handleInputChange(event) {
+	handleInputChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
-	}
+	};
 
 	/**
 	 * Toggle the displayed form between {@link LoginForm} and {@link RegisterForm}
 	 */
-	toggleForms() {
+	toggleForms = () => {
 		this.setState({isLoggingIn: !this.state.isLoggingIn});
-	}
+	};
 }
 
 /**
