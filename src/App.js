@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AuthenticationProvider from "./context/AuthenticationProvider";
+import AuthenticationProvider, {AuthenticationContext} from "./context/AuthenticationProvider";
 
 import AuthView from "./views/AuthView";
 
@@ -12,9 +12,13 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<AuthenticationProvider>
-				<div className="vh-100">
-					{!this.state.isLoggedIn && <AuthView />}
-				</div>
+				<AuthenticationContext.Consumer>
+					{value => (
+						<div className="vh-100">
+							{(value.jwtToken === null || value.jwtToken === "") && <AuthView />}
+						</div>
+					)}
+				</AuthenticationContext.Consumer>
 			</AuthenticationProvider>
 		);
 	}
