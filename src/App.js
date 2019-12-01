@@ -5,13 +5,9 @@ import AuthenticationProvider from "./context/AuthenticationProvider";
 import AuthView from "./views/AuthView";
 
 export default class App extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			isLoggedIn: false
-		};
-	}
+	state = {
+		isLoggedIn: false
+	};
 
 	render() {
 		return (
