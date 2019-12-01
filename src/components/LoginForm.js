@@ -101,7 +101,7 @@ export default class LoginForm extends React.PureComponent {
 							</FormGroup>
 
 							<Row className="justify-content-center justify-content-md-end mt-4" noGutters>
-								<Button type="submit" disabled={this.state.pendingRequest}>
+								<Button type="submit" disabled={this.state.pendingRequest || this.state.email === "" || this.state.password === ""}>
 									{ this.state.pendingRequest &&
 										<React.Fragment>
 											<Spinner animation="border" as="span" size="sm" />
