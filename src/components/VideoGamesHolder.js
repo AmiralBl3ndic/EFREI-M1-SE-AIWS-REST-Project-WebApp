@@ -72,7 +72,12 @@ export default class VideoGamesHolder extends React.Component {
 					/>
 				</Container>
 				
-				<AddVideoGameModal visible={this.state.showAddRecordModal} onClose={() => this.setState({showAddRecordModal: false})} />
+				<AddVideoGameModal visible={this.state.showAddRecordModal} onClose={(success) => {
+					this.setState({showAddRecordModal: false});
+					if (success) {
+						this.updateVideoGamesList();
+					}
+				}} />
 			</React.Fragment>
 		);
 	}
