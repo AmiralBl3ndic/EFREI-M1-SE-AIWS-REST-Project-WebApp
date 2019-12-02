@@ -1,7 +1,7 @@
 import React from "react";
 
-import {Collapse, Empty, Spin, Icon, notification, Modal as AntModal} from 'antd';
-import {Container} from "shards-react";
+import {Collapse, Descriptions, Empty, Spin, Icon, notification, Modal as AntModal, PageHeader} from 'antd';
+import {Button, Container} from "shards-react";
 
 import {videoGamesEndpoint} from "../uris";
 import Axios from "axios";
@@ -22,6 +22,7 @@ const baseGETRequest = {
 
 export default class VideoGamesHolder extends React.Component {
 	state = {
+		showAddRecordModal: false,
 		fetchingData: true,
 		videoGames: []
 	};
@@ -59,7 +60,10 @@ export default class VideoGamesHolder extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Container className="mt-3">
+				<Container>
+					<CustomPageHeader
+						handleAddRecordClick={() => this.setState({showAddRecordModal: true})}
+					/>
 					<VideoGamesList
 						loading={this.state.fetchingData}
 						items={this.state.videoGames}
@@ -89,15 +93,35 @@ const VideoGamesList = (props) => {
 			<Collapse bordered={false}>
 				{props.items.map(item => (
 					<Collapse.Panel header={item.name} key={item.videoGameId} extra={genIconIfCanDelete(item, props.onListChange)}>
-						<div>
-							{item.resume}
-						</div>
+						<React.Fragment>
+							<Descriptions>
+								<Descriptions.Item label="Release date">{item.releaseDate}</Descriptions.Item>
+								<Descriptions.Item label="Editor">{item.editor}</Descriptions.Item>
+								<Descriptions.Item label="Type">{item.type}</Descriptions.Item>
+							</Descriptions>
+							<p>
+								{item.resume}
+							</p>
+						</React.Fragment>
 					</Collapse.Panel>
 				))}
 			</Collapse>
 		</React.Fragment>
 	);
 };
+
+
+const CustomPageHeader = (props) => (
+	<PageHeader
+		title="Video-games"
+		ghost={false}
+		extra={[
+			<Button theme="info" pill onClick={props.handleAddRecordClick}>
+				Add a video-game
+			</Button>
+		]}
+	/>
+);
 
 
 const genIconIfCanDelete = (item, onDelete) => {
@@ -133,8 +157,6 @@ const genIconIfCanDelete = (item, onDelete) => {
 					});
 			}
 		});
-		
-		
 	};
 	
 	if (item.userId === userId) {
