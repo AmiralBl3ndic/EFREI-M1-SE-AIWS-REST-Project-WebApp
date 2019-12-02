@@ -2,11 +2,12 @@ import React from "react";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import {Card, CardBody, Button as ShardsButton} from "shards-react";
-import {Tabs} from 'antd';
+import {Tabs, Affix} from 'antd';
 import { FaPowerOff } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import AccountSettingsModal from "../components/AccountSettingsModal";
 import {AuthenticationContext} from "../context/AuthenticationProvider";
+import VideoGamesHolder from "../components/VideoGamesHolder";
 
 export default class HomeView extends React.Component {
 	state = {
@@ -23,10 +24,12 @@ export default class HomeView extends React.Component {
 							<CardBody className="pt-3">
 								<AuthenticationContext.Consumer>
 									{authenticationContext => (
-										<Header
-											onAccountSettingsClick={() => this.setState({showAccountSettingsModal: true})}
-											onLogoutClick={() => authenticationContext.deleteToken()}
-										/>
+										<Affix offsetTop="10">
+											<Header
+												onAccountSettingsClick={() => this.setState({showAccountSettingsModal: true})}
+												onLogoutClick={() => authenticationContext.deleteToken()}
+											/>
+										</Affix>
 									)}
 								</AuthenticationContext.Consumer>
 
@@ -35,7 +38,7 @@ export default class HomeView extends React.Component {
 									onTabChange={key => this.setState({activeTabKey: key})}
 								/>
 
-								<TabsContent activeTabKey={this.state.activeTabKey} />
+								<TabsContent activeTabKey={this.state.activeTabKey} className="bg-primary" />
 							</CardBody>
 						</Card>
 					</Row>
@@ -98,7 +101,7 @@ const TabsRow = (props) => (
 
 const TabsContent = (props) => {
 	const tabs = {
-		books: <h1>Books</h1>,
+		books: <VideoGamesHolder />,
 		dvds: <h1>DVDs</h1>,
 		videogames: <h1>Video-games</h1>
 	};
