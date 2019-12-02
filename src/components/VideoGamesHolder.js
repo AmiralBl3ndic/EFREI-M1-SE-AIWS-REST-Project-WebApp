@@ -5,6 +5,7 @@ import {Button, Container} from "shards-react";
 
 import {videoGamesEndpoint} from "../uris";
 import Axios from "axios";
+import AddVideoGameModal from "./AddVideoGameModal";
 
 const baseGETRequest = {
 	method: 'GET',
@@ -70,6 +71,8 @@ export default class VideoGamesHolder extends React.Component {
 						onListChange={this.updateVideoGamesList}
 					/>
 				</Container>
+				
+				<AddVideoGameModal visible={this.state.showAddRecordModal} onClose={() => this.setState({showAddRecordModal: false})} />
 			</React.Fragment>
 		);
 	}
