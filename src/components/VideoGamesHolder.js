@@ -26,7 +26,9 @@ export default class VideoGamesHolder extends React.Component {
 		videoGames: []
 	};
 	
-	componentDidMount = () => {
+	updateVideoGamesList = () => {
+		this.setState({fetchingData: true, videoGames: []});
+		
 		Axios(baseGETRequest)
 			.then(response => {
 				this.setState({
@@ -50,6 +52,10 @@ export default class VideoGamesHolder extends React.Component {
 			});
 	};
 	
+	componentDidMount = () => {
+		this.updateVideoGamesList();
+	};
+	
 	render() {
 		return (
 			<React.Fragment>
@@ -57,6 +63,7 @@ export default class VideoGamesHolder extends React.Component {
 					<VideoGamesList
 						loading={this.state.fetchingData}
 						items={this.state.videoGames}
+						onListChange={this.updateVideoGamesList}
 					/>
 				</Container>
 			</React.Fragment>
@@ -81,7 +88,7 @@ const VideoGamesList = (props) => {
 		<React.Fragment>
 			<Collapse bordered={false}>
 				{props.items.map(item => (
-					<Collapse.Panel header={item.name} key={item.videoGameId} extra={genIconIfCanDelete(item)}>
+					<Collapse.Panel header={item.name} key={item.videoGameId} extra={genIconIfCanDelete(item, props.onListChange)}>
 						<div>
 							{item.resume}
 						</div>
@@ -93,7 +100,7 @@ const VideoGamesList = (props) => {
 };
 
 
-const genIconIfCanDelete = (item) => {
+const genIconIfCanDelete = (item, onDelete) => {
 	const userId = JSON.parse(atob(sessionStorage.getItem("jwt-token").split('.')[1])).dbId;
 	
 	const handleDeleteClick = (e) => {
@@ -116,6 +123,7 @@ const genIconIfCanDelete = (item) => {
 							message: "Deletion complete",
 							description: `${item.name} deleted`
 						});
+						onDelete();
 					})
 					.catch(() => {
 						notification.error({
