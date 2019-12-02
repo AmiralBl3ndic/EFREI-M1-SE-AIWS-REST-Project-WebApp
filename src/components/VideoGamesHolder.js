@@ -6,6 +6,7 @@ import {Button, Container} from "shards-react";
 import {videoGamesEndpoint} from "../uris";
 import Axios from "axios";
 import AddVideoGameModal from "./AddVideoGameModal";
+import UpdateVideoGameModal from "./UpdateVideoGameModal";
 
 const baseGETRequest = {
 	method: 'GET',
@@ -24,8 +25,10 @@ const baseGETRequest = {
 export default class VideoGamesHolder extends React.Component {
 	state = {
 		showAddRecordModal: false,
+		showUpdateRecordModal: false,
 		fetchingData: true,
-		videoGames: []
+		videoGames: [],
+		toUpdate: null,
 	};
 	
 	updateVideoGamesList = () => {
@@ -69,6 +72,7 @@ export default class VideoGamesHolder extends React.Component {
 						loading={this.state.fetchingData}
 						items={this.state.videoGames}
 						onListChange={this.updateVideoGamesList}
+						onAskUpdate={item => this.setState({showUpdateRecordModal: true, toUpdate: item})}
 					/>
 				</Container>
 				
@@ -78,6 +82,14 @@ export default class VideoGamesHolder extends React.Component {
 						this.updateVideoGamesList();
 					}
 				}} />
+				
+				<UpdateVideoGameModal item={this.state.toUpdate} visible={this.state.showUpdateRecordModal} onClose={(success) => {
+					this.setState({showUpdateRecordModal: false});
+					if (success) {
+						this.updateVideoGamesList();
+					}
+				}}
+				/>
 			</React.Fragment>
 		);
 	}
@@ -100,7 +112,7 @@ const VideoGamesList = (props) => {
 		<React.Fragment>
 			<Collapse bordered={false}>
 				{props.items.map(item => (
-					<Collapse.Panel header={item.name} key={item.videoGameId} extra={genIconIfCanDelete(item, props.onListChange)}>
+					<Collapse.Panel header={item.name} key={item.videoGameId} extra={buildExtras(item, props.onListChange, props.onAskUpdate)}>
 						<React.Fragment>
 							<Descriptions>
 								<Descriptions.Item label="Release date">{item.releaseDate}</Descriptions.Item>
@@ -124,7 +136,7 @@ const CustomPageHeader = (props) => (
 		title="Video-games"
 		ghost={false}
 		extra={[
-			<Button theme="info" pill onClick={props.handleAddRecordClick}>
+			<Button key="add-video-game-button" theme="info" pill onClick={props.handleAddRecordClick}>
 				Add a video-game
 			</Button>
 		]}
@@ -132,7 +144,7 @@ const CustomPageHeader = (props) => (
 );
 
 
-const genIconIfCanDelete = (item, onDelete) => {
+const buildExtras = (item, onDelete, onAskUpdate) => {
 	const userId = JSON.parse(atob(sessionStorage.getItem("jwt-token").split('.')[1])).dbId;
 	
 	const handleDeleteClick = (e) => {
@@ -167,13 +179,28 @@ const genIconIfCanDelete = (item, onDelete) => {
 		});
 	};
 	
+	const handleUpdateClick = e => {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		onAskUpdate(item);
+	};
+	
 	if (item.userId === userId) {
 		return (
-			<Icon
-				type="delete"
-				className="text-danger"
-				onClick={handleDeleteClick}
-			/>);
+			<React.Fragment>
+				<Icon
+					type="edit"
+					className="text-info"
+					onClick={handleUpdateClick}
+				/>
+				<Icon
+					type="delete"
+					className="text-danger ml-4"
+					onClick={handleDeleteClick}
+				/>
+			</React.Fragment>
+			);
 	}
 	
 	return (<React.Fragment />);
