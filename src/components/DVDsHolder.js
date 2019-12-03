@@ -72,7 +72,7 @@ export default class DVDsHolder extends React.Component {
 					/>
 					<DVDsList
 						loading={this.state.fetchingData}
-						items={this.state.books}
+						items={this.state.dvds}
 						onListChange={this.updateDVDsList}
 						onAskUpdate={item => this.setState({showUpdateRecordModal: true, toUpdate: item})}
 					/>
@@ -107,7 +107,7 @@ const DVDsList = (props) => {
 	}
 	
 	if (props.items.length === 0) {
-		return <Empty description="No books records found" />
+		return <Empty description="No dvds records found" />
 	}
 	
 	return (
