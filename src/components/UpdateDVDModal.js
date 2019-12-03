@@ -4,10 +4,10 @@ import {Form, FormInput, FormGroup, FormTextarea, Button} from 'shards-react';
 
 import Axios from 'axios';
 
-import {dvdsEndpoint, videoGamesEndpoint} from "../uris";
+import {dvdsEndpoint} from "../uris";
 import moment from "moment";
 
-export default class AddDVDModal extends React.PureComponent {
+export default class UpdateDVDModal extends React.PureComponent {
 	render() {
 		return (
 			<Modal
@@ -15,24 +15,24 @@ export default class AddDVDModal extends React.PureComponent {
 				centered
 				visible={this.props.visible}
 				onCancel={() => this.props.onClose(false)}
-				title="Add a DVD"
+				title="Update a DVD"
 			>
-				<AddDVDForm onSubmitSuccess={() => this.props.onClose(true)} />
+				<UpdateDVDForm item={this.props.item} onSubmitSuccess={() => this.props.onClose(true)} />
 			</Modal>
 		);
 	}
 }
 
-class AddDVDForm extends React.PureComponent {
+class UpdateDVDForm extends React.PureComponent {
 	state = {
-		title: '',
-		type: '',
-		releaseDate: '',
-		duration: '',
-		ageLimit: '',
-		description: '',
-		editor: '',
-		audio: ''
+		title: this.props.item.title,
+		duration: this.props.item.duration,
+		ageLimit: this.props.item.ageLimit,
+		audio: this.props.item.audio,
+		type: this.props.item.type,
+		editor: this.props.item.editor,
+		releaseDate: moment(this.props.item.releaseDate),
+		description: this.props.item.description
 	};
 	
 	handleInputChange = event => {
@@ -58,31 +58,23 @@ class AddDVDForm extends React.PureComponent {
 		e.stopPropagation();
 		
 		Axios({
-			method: 'POST',
-			url: dvdsEndpoint,
+			method: 'PUT',
+			url: dvdsEndpoint + "/" + this.props.item.dvdId,
 			headers: {
 				'Authorization': 'Bearer ' + sessionStorage.getItem("jwt-token")
 			},
 			data: this.state
 		})
-			.then(() => {
+			.then((response) => {
 				notification.success({
-					message: this.state.name + " added!"
-				});
-				
-				this.setState({
-					name: '',
-					type: '',
-					editor: '',
-					releaseDate: '',
-					resume: ''
+					message: this.state.title + " updated!"
 				});
 				
 				this.props.onSubmitSuccess();
 			})
 			.catch(error => {
 				notification.error({
-					message: "Unable to add " + this.state.name
+					message: "Unable to update " + this.state.title
 				});
 			});
 	};
@@ -147,7 +139,7 @@ class AddDVDForm extends React.PureComponent {
 				</FormGroup>
 				
 				<Button type="submit" theme="primary" block>
-					Add a DVD
+					Update the DVD
 				</Button>
 			</Form>
 		);

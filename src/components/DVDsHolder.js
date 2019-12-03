@@ -3,11 +3,10 @@ import React from "react";
 import {Collapse, Descriptions, Empty, Spin, Icon, notification, Modal as AntModal, PageHeader} from 'antd';
 import {Button, Container} from "shards-react";
 
-import {booksEndpoint, dvdsEndpoint} from "../uris";
+import {dvdsEndpoint} from "../uris";
 import Axios from "axios";
-import UpdateBookModal from "./UpdateBookModal";
-import AddBookModal from "./AddBookModal";
 import AddDVDModal from "./AddDVDModal";
+import UpdateDVDModal from "./UpdateDVDModal";
 
 const baseGETRequest = {
 	method: 'GET',
@@ -86,7 +85,7 @@ export default class DVDsHolder extends React.Component {
 					}
 				}} />
 				
-				<UpdateBookModal item={this.state.toUpdate} visible={this.state.showUpdateRecordModal} onClose={(success) => {
+				<UpdateDVDModal item={this.state.toUpdate} visible={this.state.showUpdateRecordModal} onClose={(success) => {
 					this.setState({showUpdateRecordModal: false});
 					if (success) {
 						this.updateDVDsList();
