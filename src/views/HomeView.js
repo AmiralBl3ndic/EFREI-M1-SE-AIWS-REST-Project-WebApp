@@ -101,9 +101,9 @@ const TabsRow = (props) => (
 
 const TabsContent = (props) => {
 	const tabs = {
-		books: <VideoGamesHolder />,
+		books: <h1>Books</h1>,
 		dvds: <h1>DVDs</h1>,
-		videogames: <h1>Video-games</h1>
+		videogames: <VideoGamesHolder />
 	};
 
 	return tabs[props.activeTabKey]
