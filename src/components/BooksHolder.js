@@ -5,8 +5,8 @@ import {Button, Container} from "shards-react";
 
 import {booksEndpoint} from "../uris";
 import Axios from "axios";
-import AddVideoGameModal from "./AddVideoGameModal";
 import UpdateBookModal from "./UpdateBookModal";
+import AddBookModal from "./AddBookModal";
 
 const baseGETRequest = {
 	method: 'GET',
@@ -78,7 +78,7 @@ export default class BooksHolder extends React.Component {
 					/>
 				</Container>
 				
-				<AddVideoGameModal visible={this.state.showAddRecordModal} onClose={(success) => {
+				<AddBookModal visible={this.state.showAddRecordModal} onClose={(success) => {
 					this.setState({showAddRecordModal: false});
 					if (success) {
 						this.updateBooksList();

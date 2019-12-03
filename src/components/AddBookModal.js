@@ -4,10 +4,10 @@ import {Form, FormInput, FormGroup, FormTextarea, Button} from 'shards-react';
 
 import Axios from 'axios';
 
-import {booksEndpoint, videoGamesEndpoint} from "../uris";
+import {booksEndpoint} from "../uris";
 import moment from "moment";
 
-export default class UpdateBookModal extends React.PureComponent {
+export default class AddBookModal extends React.PureComponent {
 	render() {
 		return (
 			<Modal
@@ -15,22 +15,22 @@ export default class UpdateBookModal extends React.PureComponent {
 				centered
 				visible={this.props.visible}
 				onCancel={() => this.props.onClose(false)}
-				title="Update a book"
+				title="Add a video game"
 			>
-				<UpdateBookForm item={this.props.item} onSubmitSuccess={() => this.props.onClose(true)} />
+				<AddBookForm onSubmitSuccess={() => this.props.onClose(true)} />
 			</Modal>
 		);
 	}
 }
 
-class UpdateBookForm extends React.PureComponent {
+class AddBookForm extends React.PureComponent {
 	state = {
-		author: this.props.item.author,
-		title: this.props.item.title,
-		type: this.props.item.type,
-		editor: this.props.item.editor,
-		releaseDate: moment(this.props.item.releaseDate),
-		description: this.props.item.description
+		author: '',
+		title: '',
+		type: '',
+		editor: '',
+		releaseDate: '',
+		description: ''
 	};
 	
 	handleInputChange = event => {
@@ -56,23 +56,32 @@ class UpdateBookForm extends React.PureComponent {
 		e.stopPropagation();
 		
 		Axios({
-			method: 'PUT',
-			url: booksEndpoint + "/" + this.props.item.bookId,
+			method: 'POST',
+			url: booksEndpoint,
 			headers: {
 				'Authorization': 'Bearer ' + sessionStorage.getItem("jwt-token")
 			},
 			data: this.state
 		})
-			.then((response) => {
+			.then(() => {
 				notification.success({
-					message: this.state.title + " updated!"
+					message: this.state.name + " added!"
+				});
+				
+				this.setState({
+					author: '',
+					title: '',
+					type: '',
+					editor: '',
+					releaseDate: '',
+					description: ''
 				});
 				
 				this.props.onSubmitSuccess();
 			})
 			.catch(error => {
 				notification.error({
-					message: "Unable to update " + this.state.title
+					message: "Unable to add " + this.state.name
 				});
 			});
 	};
@@ -93,7 +102,7 @@ class UpdateBookForm extends React.PureComponent {
 					<FormInput type="text" id="author" name="author" placeholder="Author of the book" required
 					           value={this.state.author}
 					           onChange={this.handleInputChange}
-          />
+					/>
 				</FormGroup>
 				
 				<FormGroup>
@@ -117,12 +126,12 @@ class UpdateBookForm extends React.PureComponent {
 				</FormGroup>
 				
 				<FormGroup>
-					<label htmlFor="resume">📝 Description</label>
+					<label htmlFor="description">📝 Description</label>
 					<FormTextarea onChange={this.handleResumeChange} placeholder="Short synopsis of the book" value={this.state.description} />
 				</FormGroup>
 				
 				<Button type="submit" theme="primary" block>
-					Update the book
+					Add a book
 				</Button>
 			</Form>
 		);
