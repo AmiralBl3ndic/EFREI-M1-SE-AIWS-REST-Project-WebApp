@@ -8,6 +8,7 @@ import { MdAccountCircle } from "react-icons/md";
 import AccountSettingsModal from "../components/AccountSettingsModal";
 import {AuthenticationContext} from "../context/AuthenticationProvider";
 import VideoGamesHolder from "../components/VideoGamesHolder";
+import BooksHolder from "../components/BooksHolder";
 
 export default class HomeView extends React.Component {
 	state = {
@@ -101,7 +102,7 @@ const TabsRow = (props) => (
 
 const TabsContent = (props) => {
 	const tabs = {
-		books: <h1>Books</h1>,
+		books: <BooksHolder />,
 		dvds: <h1>DVDs</h1>,
 		videogames: <VideoGamesHolder />
 	};
