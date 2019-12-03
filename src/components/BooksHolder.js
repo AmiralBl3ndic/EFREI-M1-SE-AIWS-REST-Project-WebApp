@@ -42,6 +42,8 @@ export default class BooksHolder extends React.Component {
 				});
 			})
 			.catch(error =>{
+				this.setState({fetchingData: false});
+				
 				// If internal server error
 				if (/^5\d\d$/.test(error.response.status + "")) {
 					notification.warning({
