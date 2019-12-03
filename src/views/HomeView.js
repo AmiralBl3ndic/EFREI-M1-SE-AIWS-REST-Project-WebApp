@@ -9,6 +9,7 @@ import AccountSettingsModal from "../components/AccountSettingsModal";
 import {AuthenticationContext} from "../context/AuthenticationProvider";
 import VideoGamesHolder from "../components/VideoGamesHolder";
 import BooksHolder from "../components/BooksHolder";
+import DVDsHolder from "../components/DVDsHolder";
 
 export default class HomeView extends React.Component {
 	state = {
@@ -103,7 +104,7 @@ const TabsRow = (props) => (
 const TabsContent = (props) => {
 	const tabs = {
 		books: <BooksHolder />,
-		dvds: <h1>DVDs</h1>,
+		dvds: <DVDsHolder />,
 		videogames: <VideoGamesHolder />
 	};
 
